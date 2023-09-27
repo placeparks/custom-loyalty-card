@@ -1,20 +1,29 @@
-import { ThirdwebProvider } from '@thirdweb-dev/react';
-import '../styles/globals.css';
+import { ThirdwebProvider, paperWallet, smartWallet, localWallet,  metamaskWallet} from "@thirdweb-dev/react"
+import "../styles/globals.css"
+import 'bootstrap/dist/css/bootstrap.css'
 
-// This is the chain your dApp will work on.
-// Change this to the chain your app is built for.
-// You can also import additional chains from `@thirdweb-dev/chains` and pass them directly.
-const activeChain = 'ethereum';
+const activeChain = "mumbai"
 
 function MyApp({ Component, pageProps }) {
-	return (
-		<ThirdwebProvider
-			activeChain={activeChain}
-			clientId={process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID}
-		>
-			<Component {...pageProps} />
-		</ThirdwebProvider>
-	);
+  return (
+    <ThirdwebProvider
+    clientId= {process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID}
+      activeChain={activeChain}
+      supportedWallets={[
+        smartWallet({
+          factoryAddress: "0x44106B672501fEfE2151288F3e0be9Fbc08126B3",
+          gasless: true,
+          personalWallets: [
+            paperWallet({
+              paperClientId: "ebe107ca-1753-4388-bc12-d214c7a068af",
+            }),
+          ]
+        })
+      ]}
+    >
+      <Component {...pageProps} />
+    </ThirdwebProvider>
+  )
 }
 
-export default MyApp;
+export default MyApp
